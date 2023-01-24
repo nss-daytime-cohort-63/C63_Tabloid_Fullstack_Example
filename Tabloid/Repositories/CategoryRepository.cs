@@ -20,7 +20,11 @@ namespace Tabloid.Repositories
 
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "SELECT Id, [Name] FROM Category";
+                    cmd.CommandText = @"
+                        SELECT Id, [Name] 
+                        FROM Category
+                        ORDER BY [Name]
+                    ";
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
