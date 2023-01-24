@@ -20,7 +20,7 @@ namespace Tabloid.Controllers
         }
 
         [Authorize]
-        [HttpGet("Get/All")]
+        [HttpGet]
         public IActionResult Get()
         {
             List<Category> categories = _categoryRepository.GetAll();
