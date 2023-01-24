@@ -22,6 +22,7 @@ namespace Tabloid.Controllers
 
         // GET: TagController
         [HttpGet]
+        [Authorize]
         public ActionResult Index()
         {
             var tags = _tagRepository.GetAllTags();
