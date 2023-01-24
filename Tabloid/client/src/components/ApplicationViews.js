@@ -2,8 +2,9 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
+import PostList from "./PostList";
+import ListCategories from "./Category/ListCategories";
 import Tags from "./TagList";
-import Hello from "./Hello";
 
 export default function ApplicationViews({ isLoggedIn, role }) {
   return (
