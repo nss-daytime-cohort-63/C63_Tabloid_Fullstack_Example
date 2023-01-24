@@ -56,6 +56,9 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 
+# SQL Seed Data
+02_Tabloid_Seed_Data.sql
+
 # StyleCop
 StyleCopReport.xml
 
