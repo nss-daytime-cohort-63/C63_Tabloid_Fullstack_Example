@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# SQL Seed Data
+02_Tabloid_Seed_Data.sql
+
 # User-specific files
 *.rsuser
 *.suo
@@ -55,6 +58,9 @@ BenchmarkDotNet.Artifacts/
 project.lock.json
 project.fragment.lock.json
 artifacts/
+
+# SQL Seed Data
+02_Tabloid_Seed_Data.sql
 
 # StyleCop
 StyleCopReport.xml

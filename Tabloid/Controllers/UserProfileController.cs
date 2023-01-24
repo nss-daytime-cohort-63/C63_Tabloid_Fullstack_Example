@@ -27,10 +27,12 @@ namespace Tabloid.Controllers
         public IActionResult DoesUserExist(string firebaseUserId)
         {
             var userProfile = _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+
             if (userProfile == null)
             {
                 return NotFound();
             }
+
             return Ok();
         }
 
