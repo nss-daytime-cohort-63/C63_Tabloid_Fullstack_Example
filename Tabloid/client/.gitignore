@@ -21,6 +21,7 @@
 # SQL Seed Data
 02_Tabloid_Seed_Data.sql
 
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
