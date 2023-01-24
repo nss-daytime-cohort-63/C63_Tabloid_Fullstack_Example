@@ -1,9 +1,10 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Login from "./Login";
-import Register from "./Register";
-import PostList from "./PostList";
-import ListCategories from "./Category/ListCategories";
+import Login from "./auth/Login";
+import Register from "./auth/Register";
+import PostList from "./post/PostList";
+import ListCategories from "./category/ListCategories";
+import UserPosts from "./post/UserPosts";
 
 export default function ApplicationViews({ isLoggedIn, role }) {
   return (
@@ -16,6 +17,7 @@ export default function ApplicationViews({ isLoggedIn, role }) {
           />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="userposts" element={<UserPosts />} />
 
           <Route path="categories">
             <Route index

@@ -20,7 +20,11 @@ namespace Tabloid.Controllers
         {
             return Ok(_postRepository.GetAll());
         }
-
+        
+        [HttpGet("{firebaseUserId}")]
+        public IActionResult GetUserPosts(string firebaseUserId)
+        {
+            return Ok(_postRepository.GetByUserId(firebaseUserId));
+        }
     }
-
 }

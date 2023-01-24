@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Post from "./Post";
-import { getAllPosts } from "../modules/postManager";
+import { getUserPosts } from "../../modules/postManager";
+import firebase from "firebase";
 
-export default function PostList() {
+export default function UserPosts() {
   const [posts, setPosts] = useState([]);
 
+
+  const userId = firebase.auth().currentUser.uid
+
   useEffect(() => {
-    getAllPosts().then(setPosts);
+    getUserPosts(userId).then(setPosts);
   }, []);
 
   return (
