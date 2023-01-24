@@ -8,7 +8,7 @@ const TagList = () => {
 
   useEffect(() => {
     getTags();
-}, []); // the empty array ensures that the effect only runs on mount
+}, []);
 
 const getTags = () => {
     getAllTags().then(tags => setTags(tags));
