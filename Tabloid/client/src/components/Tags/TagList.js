@@ -1,26 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { getAllTags } from "../modules/tagManager";
+import { getAllTags } from "../../modules/tagManager";
 import Tag from "./Tag";
 
 const TagList = () => {
-    const [tags, setTags] = useState([]);
-    const [newTag, setNewTag] = useState("");
+  const [tags, setTags] = useState([]);
+  const [newTag, setNewTag] = useState("");
 
-    useEffect(() => {
-      getTags();
-      }, [tags]);
+  useEffect(() => {
+    getTags();
+}, []); // the empty array ensures that the effect only runs on mount
 
-      const getSortedTags = (tags) => {
-        return tags.sort((a, b) => (a.name > b.name) ? 1 : -1);
-    }
-  
-    const getTags = () => {
-      getAllTags().then(tags => {
-          const sortedTags = getSortedTags(tags);
-          setTags(sortedTags);
-      });
-  };
-  
+const getTags = () => {
+    getAllTags().then(tags => setTags(tags));
+};
   
     return (
       <div className="container">

@@ -32,8 +32,9 @@ namespace Tabloid.Models
         public UserProfile UserProfile { get; set; }
 
 
-        /* Add this for when categories are implemented */ 
+        /* Add this for when categories are implemented */
 
         // public Category Category { get; set; }
+
     }
 }

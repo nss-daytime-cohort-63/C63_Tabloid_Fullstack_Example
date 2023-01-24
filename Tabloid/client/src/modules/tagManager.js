@@ -1,22 +1,15 @@
+import { getToken } from "./authManager"
+
 const _apiUrl = "/api/tag";
 
-export const getAllTags = () => {
-    return fetch(`${_apiUrl}/Index`)
-        .then((res) => {
-            if(!res.ok) {
-              throw new Error('Error fetching tags')
-            }
-            return res.json()
-          })
-          .catch(error => console.log(error.message))
-      };
+      export const getAllTags = () => {
+        return getToken().then(token => {
+            return fetch(`${_apiUrl}`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(res => res.json())
+        })
+    }
     
-      export const addTag = (tag) => {
-        return fetch(`${_apiUrl}/Create`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(tag),
-        });
-      };

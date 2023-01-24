@@ -5,10 +5,11 @@ namespace Tabloid.Models
 {
     public class Tag
     {
+        [Required]
         public int Id { get; set; }
 
         [Required]
-        [DisplayName("Tag Name")]
+        [StringLength(50)]
         public string Name { get; set; }
 
 

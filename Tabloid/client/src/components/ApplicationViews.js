@@ -4,7 +4,7 @@ import Login from "./Login";
 import Register from "./Register";
 import PostList from "./PostList";
 import ListCategories from "./Category/ListCategories";
-import Tags from "./TagList";
+import Tags from "./Tags/TagList";
 
 export default function ApplicationViews({ isLoggedIn, role }) {
   return (
