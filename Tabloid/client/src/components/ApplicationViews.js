@@ -3,11 +3,12 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import PostList from "./post/PostList";
-import ListCategories from "./category/ListCategories";
+import ListCategories from "./Category/ListCategories";
 import UserPosts from "./post/UserPosts";
 import ListUsers from "./user/ListUsers";
 import TagList from "./tag/TagList";
-import CategoryForm from "./category/CategoryForm";
+import CategoryForm from "./Category/CategoryForm";
+import UserDetails from "./user/UserDetails";
 
 export default function ApplicationViews({ isLoggedIn, role }) {
   return (
@@ -47,6 +48,7 @@ export default function ApplicationViews({ isLoggedIn, role }) {
             <Route index
               element={isLoggedIn && role === "Admin" ? <ListUsers />
                 : <Navigate to="/login" />} />
+            <Route path=":id" element={<UserDetails />} />
           </Route>
 
           <Route path="*" element={<p>Whoops, nothing here...</p>} />
