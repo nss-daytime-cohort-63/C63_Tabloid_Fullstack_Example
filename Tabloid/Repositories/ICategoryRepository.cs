@@ -6,6 +6,7 @@ namespace Tabloid.Repositories
 {
     public interface ICategoryRepository
     {
-        List<Category> GetAll();
+        AllCategoriesDTO GetAll(bool usePagination, int? offset);
+        public void Add(Category category);
     }
 }

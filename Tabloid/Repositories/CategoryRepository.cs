@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Xml.Schema;
 
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +13,7 @@ namespace Tabloid.Repositories
     {
         public CategoryRepository(IConfiguration config) : base(config) { }
 
-        public List<Category> GetAll()
+        public AllCategoriesDTO GetAll(bool usePagination, int? offset)
         {
             using (SqlConnection conn = Connection)
             {
@@ -20,15 +21,17 @@ namespace Tabloid.Repositories
 
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"
-                        SELECT Id, [Name] 
-                        FROM Category
+                    cmd.CommandText = $@"
+                        SELECT Id, [Name], (SELECT COUNT(*) FROM dbo.Category) Total
+                        FROM dbo.Category
                         ORDER BY [Name]
+                        {(usePagination ? $"OFFSET {(offset == null ? 0 : offset)} ROWS FETCH NEXT 10 ROWS ONLY" : "")}
                     ";
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         List<Category> categories = new List<Category>();
+                        AllCategoriesDTO newDTO = new();
 
                         while (reader.Read())
                         {
@@ -39,10 +42,35 @@ namespace Tabloid.Repositories
                             };
 
                             categories.Add(newCategory);
+                            if (newDTO.Total == null)
+                            {
+                                newDTO.Total = DbUtils.GetInt(reader, "Total");
+                            }
                         }
-
-                        return categories;
+                        
+                        newDTO.Categories = categories;
+                        return newDTO;
                     }
+                }
+            }
+        }
+
+        public void Add(Category category)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = $@"
+                        INSERT INTO dbo.Category ([Name])
+                        VALUES (@Name)
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@Name", category.Name);
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
