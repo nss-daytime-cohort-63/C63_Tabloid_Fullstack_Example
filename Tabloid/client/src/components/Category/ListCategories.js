@@ -10,15 +10,24 @@ const ListCategories = () => {
         [offset, setOffset] = useState(0),
         [total, setTotal] = useState(0),
         [increment, setIncrement] = useState(10),
+        [usePagination, setUsePagination] = useState(true),
         navigate = useNavigate()
 
     useEffect(() => {
-        getAllCategories(true, increment, offset)
+        // If it is a number, use pagination
+        if (!isNaN(increment) && !usePagination) {
+            setUsePagination(true)
+        }
+        if (isNaN(increment) && usePagination) {
+            setUsePagination(false)
+        }
+
+        getAllCategories(usePagination, increment, offset)
             .then(data => {
                 setCategories(data.categories)
                 setTotal(data.total)
             })
-    }, [offset, increment])
+    }, [offset, increment, usePagination])
 
     return (
         <>
@@ -42,7 +51,7 @@ const ListCategories = () => {
             </Table>
             <Pagination total={total} increment={increment} offset={offset} setOffset={setOffset} />
             {
-                !isNaN(increment)
+                usePagination
                     ? <div>{offset + 1} - {offset + increment > total ? total : offset + increment} of {total}</div>
                     : <div>{offset + 1} - {total} of {total}</div>
             }
