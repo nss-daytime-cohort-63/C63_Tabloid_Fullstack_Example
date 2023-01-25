@@ -41,7 +41,11 @@ const ListCategories = () => {
                 </tbody>
             </Table>
             <Pagination total={total} increment={increment} offset={offset} setOffset={setOffset} />
-            <div>{offset + 1} - {offset + increment > total ? total : offset + increment} of {total}</div>
+            {
+                !isNaN(increment)
+                    ? <div>{offset + 1} - {offset + increment > total ? total : offset + increment} of {total}</div>
+                    : <div>{offset + 1} - {total} of {total}</div>
+            }
         </>
     )
 }
