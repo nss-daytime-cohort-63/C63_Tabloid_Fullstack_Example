@@ -5,6 +5,7 @@ import Register from "./Register";
 import PostList from "./PostList";
 import ListCategories from "./Category/ListCategories";
 import CategoryForm from "./Category/CategoryForm";
+import ListUsers from "./UserProfiles/ListUsers";
 import Tags from "./Tags/TagList";
 
 export default function ApplicationViews({ isLoggedIn, role }) {
@@ -18,13 +19,12 @@ export default function ApplicationViews({ isLoggedIn, role }) {
           />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          
           <Route path="tags" >
             <Route index
               element={
-                isLoggedIn
-                  ? role === "Admin"
-                    ? <Tags />
-                    : <Navigate to="/tags" />
+                isLoggedIn && role === "Admin"
+                  ? <Tags />
                   : <Navigate to="/login" />
               }
             />
@@ -33,13 +33,21 @@ export default function ApplicationViews({ isLoggedIn, role }) {
           <Route path="categories">
             <Route index
               element={
-                isLoggedIn && role === "Admin"
-                  ? <ListCategories />
+                isLoggedIn
+                  ? role === "Admin"
+                    ? <ListCategories />
+                    : <Navigate to="/" />
                   : <Navigate to="/login" />
               }
             />
-
             <Route path="new" element={<CategoryForm />} />
+          </Route>
+
+
+          <Route path="users">
+            <Route index
+              element={isLoggedIn && role === "Admin" ? <ListUsers />
+                : <Navigate to="/login" />} />
           </Route>
 
           <Route path="*" element={<p>Whoops, nothing here...</p>} />

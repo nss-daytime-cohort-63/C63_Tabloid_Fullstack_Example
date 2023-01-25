@@ -1,4 +1,5 @@
 import React from "react";
+import { getToken } from "../modules/authManager";
 
 export default function Hello() {
   return (
