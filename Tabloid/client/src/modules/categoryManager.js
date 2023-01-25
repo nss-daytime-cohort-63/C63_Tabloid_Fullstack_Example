@@ -11,9 +11,10 @@ const _apiUrl = "/api/category"
 */
 // usePagination (false) = fetch ALL categories at once
 // usePagination (true) = fetch ALL categories, 10 at a time, with the defined offset
-export const getAllCategories = (usePagination, offset) => {
+export const getAllCategories = (usePagination, increment, offset) => {
     return getToken().then(token => {
-        return fetch(`${_apiUrl}?usePagination=${usePagination}${(offset ? `&offset=${offset}` : ``)}`, { // If offset is provided, add query 
+        // The query parameters are only added if an argument is provided for them
+        return fetch(`${_apiUrl}?usePagination=${usePagination}${(increment ? `&increment=${increment}` : "")}${(offset ? `&offset=${offset}` : "")}`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`

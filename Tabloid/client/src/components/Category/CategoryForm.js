@@ -52,7 +52,7 @@ const CategoryForm = () => {
             <FormGroup>
                 <Label htmlFor="name">Name</Label>
                 <Input name="name" className="w-auto" onChange={changeState} />
-                <FormText className="hidden" id="category-name-validation" color="danger">That tag already exists.</FormText>
+                <FormText className="hidden" id="category-name-validation" color="danger">An error occured.</FormText>
             </FormGroup>
             <Button id="category-save-btn" color="success">Save</Button>
         </Form>

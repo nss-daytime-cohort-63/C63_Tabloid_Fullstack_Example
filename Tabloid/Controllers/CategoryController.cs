@@ -24,7 +24,7 @@ namespace Tabloid.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get([FromQuery] bool usePagination, [FromQuery] int? offset)
+        public IActionResult Get([FromQuery] bool usePagination, [FromQuery] int? increment, [FromQuery] int? offset)
         {
             string UUID = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -35,7 +35,7 @@ namespace Tabloid.Controllers
                 return Unauthorized();
             }
 
-            AllCategoriesDTO DTO = _categoryRepository.GetAll(usePagination, offset);
+            AllCategoriesDTO DTO = _categoryRepository.GetAll(usePagination, increment, offset);
 
             return Ok(DTO);
         }

@@ -57,9 +57,7 @@ CREATE TABLE [Subscription] (
 
 CREATE TABLE [Category] (
   [Id] integer PRIMARY KEY IDENTITY,
-  [Name] nvarchar(50) NOT NULL,
-
-  CONSTRAINT [UQ_Category_Name] UNIQUE([Name])
+  [Name] nvarchar(50) NOT NULL
 )
 
 CREATE TABLE [Post] (

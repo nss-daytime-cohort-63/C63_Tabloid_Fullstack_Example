@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Xml.Schema;
 
 using Microsoft.Data.SqlClient;
@@ -13,7 +14,7 @@ namespace Tabloid.Repositories
     {
         public CategoryRepository(IConfiguration config) : base(config) { }
 
-        public AllCategoriesDTO GetAll(bool usePagination, int? offset)
+        public AllCategoriesDTO GetAll(bool usePagination, int? increment, int? offset)
         {
             using (SqlConnection conn = Connection)
             {
@@ -25,7 +26,7 @@ namespace Tabloid.Repositories
                         SELECT Id, [Name], (SELECT COUNT(*) FROM dbo.Category) Total
                         FROM dbo.Category
                         ORDER BY [Name]
-                        {(usePagination ? $"OFFSET {(offset == null ? 0 : offset)} ROWS FETCH NEXT 10 ROWS ONLY" : "")}
+                        {(usePagination ? $"OFFSET {(offset == null ? 0 : offset)} ROWS FETCH NEXT {(increment == null ? 10 : increment)} ROWS ONLY" : "")}
                     ";
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
