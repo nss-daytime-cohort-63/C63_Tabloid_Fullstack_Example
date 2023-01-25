@@ -5,6 +5,7 @@ import Register from "./auth/Register";
 import PostList from "./post/PostList";
 import ListCategories from "./category/ListCategories";
 import UserPosts from "./post/UserPosts";
+import TagList from "./tag/TagList";
 
 export default function ApplicationViews({ isLoggedIn, role }) {
   return (
@@ -21,7 +22,7 @@ export default function ApplicationViews({ isLoggedIn, role }) {
           <Route path="tags" element={
             isLoggedIn
               ? role === "Admin"
-                ? <Tags />
+                ? <TagList />
                 : <Navigate to="/" />
               : <Navigate to="/login" />
             }
