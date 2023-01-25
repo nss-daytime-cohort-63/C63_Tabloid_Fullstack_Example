@@ -58,6 +58,13 @@ export default function Header({ isLoggedIn, role }) {
               </NavItem>
               </>
             }
+            {role === "Admin" &&
+              <>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/users">Users</NavLink>
+                </NavItem>
+              </>
+            }
           </Nav>
         </Collapse>
       </Navbar>
