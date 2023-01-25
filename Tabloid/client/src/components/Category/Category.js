@@ -1,6 +1,6 @@
 const Category = ({ cat }) => {
     return (
-        <tr>
+        <tr >
             <td>{cat.id}</td>
             <td>{cat.name}</td>
         </tr>

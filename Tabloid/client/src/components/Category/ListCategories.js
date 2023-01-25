@@ -21,7 +21,7 @@ const ListCategories = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {categories?.map(c => <Category cat={c} />)}
+                    {categories?.map(c => <Category key={c.id} cat={c} />)}
                 </tbody>
             </Table>
         </>

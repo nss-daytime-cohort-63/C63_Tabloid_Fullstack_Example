@@ -4,6 +4,7 @@ import Login from "./Login";
 import Register from "./Register";
 import PostList from "./PostList";
 import ListCategories from "./Category/ListCategories";
+import ListUsers from "./UserProfiles/ListUsers";
 
 export default function ApplicationViews({ isLoggedIn, role }) {
   return (
@@ -20,13 +21,17 @@ export default function ApplicationViews({ isLoggedIn, role }) {
           <Route path="categories">
             <Route index
               element={
-                isLoggedIn
-                  ? role === "Admin"
-                    ? <ListCategories />
-                    : <Navigate to="/" />
+                isLoggedIn && role === "Admin"
+                  ? <ListCategories />
                   : <Navigate to="/login" />
               }
             />
+          </Route>
+
+          <Route path="users">
+            <Route index
+              element={isLoggedIn && role === "Admin" ? <ListUsers />
+                : <Navigate to="/login" />} />
           </Route>
 
           <Route path="*" element={<p>Whoops, nothing here...</p>} />
