@@ -25,7 +25,7 @@ const UserDetails = () => {
                     </tr>
                     <tr>
                         {user.imageLocation ? <td><img alt="profile picture" src={user.imageLocation}></img></td>
-                            : <td></td>}
+                            : <td><img src="https://www.shutterstock.com/image-vector/default-avatar-profile-social-media-260nw-1920331226.jpg"></img></td>}
                     </tr>
                     <tr>
                         <th>Display Name</th>
