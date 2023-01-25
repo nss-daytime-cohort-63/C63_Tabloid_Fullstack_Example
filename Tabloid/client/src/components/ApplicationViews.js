@@ -18,26 +18,34 @@ export default function ApplicationViews({ isLoggedIn, role }) {
           />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
-          <Route path="userposts" element={<UserPosts />} />
-          <Route path="tags" element={
-            isLoggedIn
-              ? role === "Admin"
-                ? <TagList />
-                : <Navigate to="/" />
-              : <Navigate to="/login" />
-            }
-          />
-          <Route path="categories">
+          <Route path="userposts" element={isLoggedIn ? <UserPosts /> : <Navigate to="/login" />} />
+          
+          <Route path="tags" >
             <Route index
               element={
-                isLoggedIn
-                  ? role === "Admin"
-                    ? <ListCategories />
-                    : <Navigate to="/" />
+                isLoggedIn && role === "Admin"
+                  ? <TagList />
                   : <Navigate to="/login" />
               }
             />
           </Route>
+
+          <Route path="categories">
+            <Route index
+              element={
+                isLoggedIn && role === "Admin"
+                  ? <ListCategories />
+                  : <Navigate to="/login" />
+              }
+            />
+          </Route>
+
+          <Route path="users">
+            <Route index
+              element={isLoggedIn && role === "Admin" ? <ListUsers />
+                : <Navigate to="/login" />} />
+          </Route>
+
           <Route path="*" element={<p>Whoops, nothing here...</p>} />
         </Route>
       </Routes>
