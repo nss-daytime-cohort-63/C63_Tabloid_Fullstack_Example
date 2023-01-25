@@ -21,9 +21,9 @@ export const getAllPosts = () => {
   });
 };
 
-export const getUserPosts = (firebaseUserId) => {
+export const getUserPosts = () => {
   return getToken().then((token) => {
-    return fetch(`${apiUrl}/${firebaseUserId}`, {
+    return fetch(`${apiUrl}/userposts`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
