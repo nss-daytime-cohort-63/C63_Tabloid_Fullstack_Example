@@ -5,6 +5,7 @@ import Register from "./auth/Register";
 import PostList from "./post/PostList";
 import ListCategories from "./category/ListCategories";
 import UserPosts from "./post/UserPosts";
+import ListUsers from "./user/ListUsers";
 import TagList from "./tag/TagList";
 
 export default function ApplicationViews({ isLoggedIn, role }) {
