@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { Button, Table } from "reactstrap"
 import { getAllCategories } from "../../modules/categoryManager"
-import Pagination from "../Partials/Pagination"
+import Pagination from "../Helpers/Pagination"
 import Category from "./Category"
 
 const ListCategories = () => {

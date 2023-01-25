@@ -19,15 +19,15 @@ export default function ApplicationViews({ isLoggedIn, role }) {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="tags" >
-          <Route index
-          element={
-            isLoggedIn
-              ? role === "Admin"
-                ? <Tags />
-                : <Navigate to="/tags" />
-              : <Navigate to="/login" />
-          }
-          />
+            <Route index
+              element={
+                isLoggedIn
+                  ? role === "Admin"
+                    ? <Tags />
+                    : <Navigate to="/tags" />
+                  : <Navigate to="/login" />
+              }
+            />
           </Route>
 
           <Route path="categories">
