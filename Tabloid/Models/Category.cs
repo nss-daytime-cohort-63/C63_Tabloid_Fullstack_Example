@@ -4,7 +4,6 @@ namespace Tabloid.Models
 {
     public class Category
     {
-        [Required]
         public int Id { get; set; }
         
         [Required]

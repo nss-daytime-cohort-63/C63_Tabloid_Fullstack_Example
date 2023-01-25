@@ -30,6 +30,19 @@ export default function Header({ isLoggedIn, role }) {
             }
           </Nav>
           <Nav navbar>
+            {role === "Admin" &&
+              <>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/users">Users</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/categories">Categories</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/tags">Tags</NavLink>
+                </NavItem>
+              </>
+            }
             {isLoggedIn &&
               <>
                 <NavItem>
@@ -45,23 +58,6 @@ export default function Header({ isLoggedIn, role }) {
                 </NavItem>
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/register">Register</NavLink>
-                </NavItem>
-              </>
-            }
-            {role === "Admin" &&
-              <>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/categories">Categories</NavLink>
-                </NavItem>
-                <NavItem>
-                <NavLink tag={RRNavLink} to="/tags">Tags</NavLink>
-              </NavItem>
-              </>
-            }
-            {role === "Admin" &&
-              <>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/users">Users</NavLink>
                 </NavItem>
               </>
             }
