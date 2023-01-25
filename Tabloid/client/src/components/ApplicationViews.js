@@ -4,6 +4,7 @@ import Login from "./Login";
 import Register from "./Register";
 import PostList from "./PostList";
 import ListCategories from "./Category/ListCategories";
+import CategoryForm from "./Category/CategoryForm";
 import ListUsers from "./UserProfiles/ListUsers";
 import Tags from "./Tags/TagList";
 import UserDetails from "./UserProfiles/UserDetails";
@@ -19,6 +20,7 @@ export default function ApplicationViews({ isLoggedIn, role }) {
           />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+
           <Route path="tags" >
             <Route index
               element={
@@ -37,7 +39,9 @@ export default function ApplicationViews({ isLoggedIn, role }) {
                   : <Navigate to="/login" />
               }
             />
+            <Route path="new" element={<CategoryForm />} />
           </Route>
+
 
           <Route path="users">
             <Route index
