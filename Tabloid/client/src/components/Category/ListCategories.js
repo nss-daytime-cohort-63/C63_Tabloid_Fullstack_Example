@@ -20,6 +20,7 @@ const ListCategories = () => {
         }
         if (isNaN(increment) && usePagination) {
             setUsePagination(false)
+            setOffset(0);
         }
 
         getAllCategories(usePagination, increment, offset)
@@ -35,7 +36,7 @@ const ListCategories = () => {
             <Button color="primary" onClick={() => navigate("new")}>Create</Button>
             <Form className="d-flex" onSubmit={(e) => { e.preventDefault(); setIncrement(parseInt(document.querySelector(`input[name="increment"]`).value)) }}>
                 <Label className="align-self-center" for="increment">Amount per page</Label>
-                <Input className="w-auto mx-2" type="number" name="increment" />
+                <Input className="w-auto mx-2" type="number" name="increment" min="0" />
                 <Button>Update</Button>
             </Form>
             <Table>
