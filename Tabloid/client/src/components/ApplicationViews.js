@@ -38,7 +38,18 @@ export default function ApplicationViews({ isLoggedIn, role }) {
                   : <Navigate to="/login" />
               }
             />
-            <Route path="new" element={<CategoryForm />} />
+            <Route path="new" element={
+              isLoggedIn && role === "Admin"
+                ? <CategoryForm />
+                : <Navigate to="/login" />
+            }
+            />
+            <Route path="edit/:catName" element={
+              isLoggedIn && role === "Admin"
+                ? <CategoryForm />
+                : <Navigate to="/login" />
+            }
+            />
           </Route>
 
 

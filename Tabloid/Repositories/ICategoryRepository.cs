@@ -8,5 +8,7 @@ namespace Tabloid.Repositories
     {
         AllCategoriesDTO GetAll(bool usePagination, int? increment, int? offset);
         public void Add(Category category);
+        public void Delete(int categoryId);
+        public void Edit(string oldName, string newName);
     }
 }

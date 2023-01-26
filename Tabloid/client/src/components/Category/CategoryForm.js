@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { Button, Form, FormGroup, FormText, Input, Label } from "reactstrap"
-import { addCategory } from "../../modules/categoryManager"
+import { addCategory, editCategory } from "../../modules/categoryManager"
 
 const CategoryForm = () => {
-    const [name, setName] = useState(""),
+    const { catName } = useParams(),
+        [name, setName] = useState(catName ?? ""),
         navigate = useNavigate()
 
 
@@ -17,44 +18,63 @@ const CategoryForm = () => {
             // Disable the save button if input is empty
             document.getElementById("category-save-btn").disabled = true
         } else {
-            document.getElementById("category-save-btn").disabled = false
-            setName(e.target.value)
+            document.getElementById("category-save-btn").disabled = e.target.value === catName
         }
+        setName(e.target.value)
     }
 
     const createCategory = (e) => {
         e.preventDefault()
 
-        addCategory(name)
-            .then(res => {
-                if (res.ok) {
-                    navigate("/categories")
-                } else {
-                    const nameErr = document.getElementById("category-name-validation")
-                    const saveBtn = document.getElementById("category-save-btn")
+        if (catName) {
+            editCategory(catName, name)
+                .then(res => {
+                    if (res.ok) {
+                        navigate("/categories")
+                    } else {
+                        const nameErr = document.getElementById("category-name-validation")
+                        const saveBtn = document.getElementById("category-save-btn")
 
-                    nameErr.style.display = "block"
-                    saveBtn.disabled = true
+                        nameErr.style.display = "block"
+                        saveBtn.disabled = true
 
-                    setTimeout(() => {
-                        nameErr.style.display = "none"
-                        saveBtn.disabled = false
-                    }, 3000)
-                }
-            })
+                        setTimeout(() => {
+                            nameErr.style.display = "none"
+                            saveBtn.disabled = false
+                        }, 3000)
+                    }
+                })
+        } else {
+            addCategory(name)
+                .then(res => {
+                    if (res.ok) {
+                        navigate("/categories")
+                    } else {
+                        const nameErr = document.getElementById("category-name-validation")
+                        const saveBtn = document.getElementById("category-save-btn")
 
+                        nameErr.style.display = "block"
+                        saveBtn.disabled = true
+
+                        setTimeout(() => {
+                            nameErr.style.display = "none"
+                            saveBtn.disabled = false
+                        }, 3000)
+                    }
+                })
+        }
     }
 
     return (
-        <Form onSubmit={createCategory} >
-            <h2>Create Category</h2>
+        <Form onSubmit={createCategory}>
+            <h2>{!catName ? 'Create' : 'Edit'} Category</h2>
             <hr className="clear" />
             <FormGroup>
                 <Label htmlFor="name">Name</Label>
-                <Input name="name" className="w-auto" onChange={changeState} />
+                <Input name="name" className="w-auto" value={name} onChange={changeState} />
                 <FormText className="hidden" id="category-name-validation" color="danger">An error occured.</FormText>
             </FormGroup>
-            <Button id="category-save-btn" color="success">Save</Button>
+            <Button id="category-save-btn" color="success">Save {catName && 'Changes'}</Button>
         </Form>
     )
 }
