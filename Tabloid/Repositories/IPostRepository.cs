@@ -7,7 +7,7 @@ namespace Tabloid.Repositories
     {
         List<Post> GetAll();
         Post GetById(int id);
-
         List<Post> GetByUserId(string firebaseId);
+        void Add(Post post);
     }
 }

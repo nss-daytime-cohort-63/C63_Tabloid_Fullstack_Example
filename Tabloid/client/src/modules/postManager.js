@@ -69,10 +69,11 @@ export const AddPost = (post) => {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ name: post })
+      body: JSON.stringify(post)
     }).then((resp) => {
       if (resp.ok) {
-        alert.window("Post made successfully!")
+        console.log("Post made successfully!")
+        return resp.json();
       } else {
         throw new Error(
           "An error occurred while trying to add a post.",
