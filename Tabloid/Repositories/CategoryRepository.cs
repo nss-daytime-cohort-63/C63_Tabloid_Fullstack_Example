@@ -23,8 +23,9 @@ namespace Tabloid.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = $@"
-                        SELECT Id, [Name], (SELECT COUNT(*) FROM dbo.Category) Total
+                        SELECT Id, [Name], (SELECT COUNT(*) FROM dbo.Category WHERE IsDeleted = 0) Total
                         FROM dbo.Category
+                        WHERE IsDeleted = 0
                         ORDER BY [Name]
                         {(usePagination ? $"OFFSET {(offset == null ? 0 : offset)} ROWS FETCH NEXT {(increment == null ? 10 : increment)} ROWS ONLY" : "")}
                     ";
@@ -64,12 +65,61 @@ namespace Tabloid.Repositories
 
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
+                    //! If tag already exists, but is deleted, restore it.
                     cmd.CommandText = $@"
-                        INSERT INTO dbo.Category ([Name])
-                        VALUES (@Name)
+                        IF (SELECT Id FROM dbo.Category WHERE [Name] = @Name) IS NULL
+	                        INSERT INTO dbo.Category ([Name])
+	                        VALUES (@Name)
+                        ELSE
+	                        UPDATE dbo.Category
+	                        SET IsDeleted = 0
+	                        WHERE [Name] = @Name
                     ";
 
                     DbUtils.AddParameter(cmd, "@Name", category.Name);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void Delete(int categoryId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE dbo.Category
+                        SET IsDeleted = 1
+                        WHERE Id = @Id
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@Id", categoryId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void Edit(string oldName, string newName)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE dbo.Category
+                        SET [Name] = @NewName
+                        WHERE [Name] = @OldName
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@NewName", newName);
+                    DbUtils.AddParameter(cmd, "@OldName", oldName);
 
                     cmd.ExecuteNonQuery();
                 }

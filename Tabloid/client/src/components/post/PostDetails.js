@@ -2,8 +2,7 @@ import React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { useLocation } from 'react-router-dom'
 import { useEffect, useState } from "react"
-import { getPostDetails } from "../modules/postManager";
-import { getAllUserProfiles } from "../modules/userProfileManager";
+import { getPostDetails } from "../../modules/postManager";
 export default function PostDetails(){
   const { id } = useParams(),
     [p, setP] = useState({}) 

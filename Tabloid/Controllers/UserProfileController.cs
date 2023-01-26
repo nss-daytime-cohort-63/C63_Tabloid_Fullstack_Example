@@ -48,6 +48,24 @@ namespace Tabloid.Controllers
             return Ok(_userProfileRepository.GetUsers());
         }
 
+        [HttpGet("details/{id}")]
+        public IActionResult GetUserById(int id)
+        {
+            var currentUserProfile = GetCurrentUserProfile();
+            if (currentUserProfile.UserType.Name != "Admin")
+            {
+                return Unauthorized();
+            }
+
+            var userProfile = _userProfileRepository.GetById(id);
+            if (userProfile == null)
+            {
+                return NotFound();
+            }
+            return Ok(userProfile);
+            
+        }
+
         [HttpPost]
         public IActionResult Post(UserProfile userProfile)
         {

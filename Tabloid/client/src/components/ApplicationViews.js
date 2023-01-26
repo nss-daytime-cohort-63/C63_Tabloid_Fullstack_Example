@@ -1,13 +1,15 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Login from "./Login";
-import Register from "./Register";
-import PostList from "./PostList";
+import Login from "./auth/Login";
+import Register from "./auth/Register";
+import PostList from "./post/PostList";
 import ListCategories from "./Category/ListCategories";
+import UserPosts from "./post/UserPosts";
+import ListUsers from "./user/ListUsers";
+import TagList from "./tag/TagList";
 import CategoryForm from "./Category/CategoryForm";
-import ListUsers from "./UserProfiles/ListUsers";
-import Tags from "./Tags/TagList";
-import PostDetails from "./PostDetails";
+import UserDetails from "./user/UserDetails";
+import PostDetails from "./post/PostDetails";
 
 export default function ApplicationViews({ isLoggedIn, role }) {
   return (
@@ -22,11 +24,12 @@ export default function ApplicationViews({ isLoggedIn, role }) {
           <Route path="register" element={<Register />} />
           <Route path="postDetails/:id" element={<PostDetails />} />
 
+          <Route path="userposts" element={isLoggedIn ? <UserPosts /> : <Navigate to="/login" />} />
           <Route path="tags" >
             <Route index
               element={
                 isLoggedIn && role === "Admin"
-                  ? <Tags />
+                  ? <TagList />
                   : <Navigate to="/login" />
               }
             />
@@ -40,7 +43,18 @@ export default function ApplicationViews({ isLoggedIn, role }) {
                   : <Navigate to="/login" />
               }
             />
-            <Route path="new" element={<CategoryForm />} />
+            <Route path="new" element={
+              isLoggedIn && role === "Admin"
+                ? <CategoryForm />
+                : <Navigate to="/login" />
+            }
+            />
+            <Route path="edit/:catName" element={
+              isLoggedIn && role === "Admin"
+                ? <CategoryForm />
+                : <Navigate to="/login" />
+            }
+            />
           </Route>
 
 
@@ -48,6 +62,7 @@ export default function ApplicationViews({ isLoggedIn, role }) {
             <Route index
               element={isLoggedIn && role === "Admin" ? <ListUsers />
                 : <Navigate to="/login" />} />
+            <Route path=":id" element={<UserDetails />} />
           </Route>
 
           <Route path="*" element={<p>Whoops, nothing here...</p>} />

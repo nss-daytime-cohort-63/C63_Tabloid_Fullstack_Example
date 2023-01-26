@@ -63,5 +63,53 @@ namespace Tabloid.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpDelete("{categoryId}")]
+        public IActionResult Delete([FromRoute] int categoryId)
+        {
+            string UUID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            UserProfile userProfile = _userProfileRepository.GetByFirebaseUserId(UUID);
+
+            if (userProfile.UserTypeId != UserType.ADMIN_ID)
+            {
+                return Unauthorized();
+            }
+
+            try
+            {
+                _categoryRepository.Delete(categoryId);
+
+                return NoContent();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut]
+        public IActionResult Edit([FromQuery] string oldName, [FromQuery] string newName)
+        {
+            string UUID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            UserProfile userProfile = _userProfileRepository.GetByFirebaseUserId(UUID);
+
+            if (userProfile.UserTypeId != UserType.ADMIN_ID)
+            {
+                return Unauthorized();
+            }
+
+            try
+            {
+                _categoryRepository.Edit(oldName, newName);
+
+                return NoContent();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }
