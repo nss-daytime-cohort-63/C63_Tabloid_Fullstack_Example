@@ -19,12 +19,25 @@ namespace Tabloid.Controllers
             _userProfileRepository = userProfileRepository;
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult Get()
         {
             return Ok(_postRepository.GetAll());
         }
 
+        [Authorize]
+        [HttpGet("{id}")]
+        public IActionResult GetPostById(int id)
+        {
+            var post = _postRepository.GetById(id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            return Ok(post);
+        }
+    
         [Authorize]
         [HttpGet("userposts")]
         public IActionResult GetUserPosts()
