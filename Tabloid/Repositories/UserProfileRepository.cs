@@ -19,7 +19,7 @@ namespace Tabloid.Repositories
                 {
                     cmd.CommandText = @"
                         SELECT up.Id, Up.FirebaseUserId, up.FirstName, up.LastName, up.DisplayName, 
-                               up.Email, up.CreateDateTime, up.ImageLocation, up.UserTypeId,
+                               up.Email, up.CreateDateTime, up.ImageLocation, up.Activated, up.UserTypeId,
                                ut.Name AS UserTypeName
                           FROM UserProfile up
                                LEFT JOIN UserType ut on up.UserTypeId = ut.Id
@@ -42,6 +42,7 @@ namespace Tabloid.Repositories
                             Email = DbUtils.GetString(reader, "Email"),
                             CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
                             ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
+                            Activated = DbUtils.GetBool(reader, "Activated"),
                             UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
                             UserType = new UserType()
                             {
@@ -66,7 +67,7 @@ namespace Tabloid.Repositories
                 {
                     cmd.CommandText = @"
                         SELECT up.Id, Up.FirebaseUserId, up.FirstName, up.LastName, up.DisplayName, 
-                               up.Email, up.CreateDateTime, up.ImageLocation, up.UserTypeId,
+                               up.Email, up.CreateDateTime, up.ImageLocation, up.Activated, up.UserTypeId,
                                ut.Name AS UserTypeName
                           FROM UserProfile up
                                LEFT JOIN UserType ut on up.UserTypeId = ut.Id
@@ -89,6 +90,7 @@ namespace Tabloid.Repositories
                             Email = DbUtils.GetString(reader, "Email"),
                             CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
                             ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
+                            Activated = DbUtils.GetBool(reader, "Activated"),
                             UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
                             UserType = new UserType()
                             {
@@ -112,8 +114,8 @@ namespace Tabloid.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"SELECT up.Id, Up.FirebaseUserId, up.FirstName, up.LastName, up.DisplayName, 
-                                               up.Email, up.CreateDateTime, up.ImageLocation, up.UserTypeId,
-                                               ut.Name AS UserTypeName
+                                               up.Email, up.CreateDateTime, up.ImageLocation, up.Activated, up.UserTypeId,
+                                               ut.[Name] AS UserTypeName
                                         FROM UserProfile up
                                         LEFT JOIN UserType ut on up.UserTypeId = ut.Id
                                         ORDER BY up.DisplayName";
@@ -133,6 +135,7 @@ namespace Tabloid.Repositories
                                 Email = DbUtils.GetString(reader, "Email"),
                                 CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
                                 ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
+                                Activated = DbUtils.GetBool(reader, "Activated"),
                                 UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
                                 UserType = new UserType()
                                 {
@@ -169,6 +172,43 @@ namespace Tabloid.Repositories
                     DbUtils.AddParameter(cmd, "@UserTypeId", userProfile.UserTypeId);
 
                     userProfile.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        public void Update(UserProfile userProfile)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE UserProfile
+                                        SET Displayname = @displayName,
+                                            FirstName = @firstName,
+                                            LastName = @lastName,
+                                            Email = @email,
+                                            ImageLocation = @imageLocation,
+                                            UserTypeId = @userTypeId,
+                                            Activated = @activated
+                                        WHERE Id = @id";
+                    DbUtils.AddParameter(cmd, "@displayName", userProfile.DisplayName);
+                    DbUtils.AddParameter(cmd, "@firstName", userProfile.FirstName);
+                    DbUtils.AddParameter(cmd, "@lastName", userProfile.LastName);
+                    DbUtils.AddParameter(cmd, "@email", userProfile.Email);
+                    DbUtils.AddParameter(cmd, "@imageLocation", userProfile.ImageLocation);
+                    DbUtils.AddParameter(cmd, "@userTypeId", userProfile.UserTypeId);
+                    DbUtils.AddParameter(cmd, "@id", userProfile.Id);
+                    if (userProfile.Activated == true) 
+                    {
+                        DbUtils.AddParameter(cmd, "@activated", 1);
+                    }
+                    else
+                    {
+                        DbUtils.AddParameter(cmd, "@activated", 0);
+                    }
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
