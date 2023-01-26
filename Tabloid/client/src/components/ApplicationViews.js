@@ -9,6 +9,7 @@ import ListUsers from "./user/ListUsers";
 import TagList from "./tag/TagList";
 import CategoryForm from "./Category/CategoryForm";
 import UserDetails from "./user/UserDetails";
+import PostDetails from "./post/PostDetails";
 
 export default function ApplicationViews({ isLoggedIn, role }) {
   return (
@@ -21,6 +22,8 @@ export default function ApplicationViews({ isLoggedIn, role }) {
           />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="postDetails/:id" element={<PostDetails />} />
+
           <Route path="userposts" element={isLoggedIn ? <UserPosts /> : <Navigate to="/login" />} />
           <Route path="tags" >
             <Route index

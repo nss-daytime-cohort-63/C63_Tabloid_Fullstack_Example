@@ -6,6 +6,7 @@ namespace Tabloid.Repositories
     public interface IPostRepository
     {
         List<Post> GetAll();
+        Post GetById(int id);
 
         List<Post> GetByUserId(string firebaseId);
     }
