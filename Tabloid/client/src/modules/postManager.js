@@ -39,3 +39,24 @@ export const getUserPosts = () => {
     });
   });
 };
+
+export const AddPost = (post) => {
+  return getToken().then((token) => {
+    return fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ name: post })
+    }).then((resp) => {
+      if (resp.ok) {
+        alert.window("Post made successfully!")
+      } else {
+        throw new Error(
+          "An error occurred while trying to add a post.",
+        );
+      }
+    });
+  });
+}
