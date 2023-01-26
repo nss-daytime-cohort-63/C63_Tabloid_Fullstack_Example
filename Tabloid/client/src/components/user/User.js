@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { updateUserProfile } from "../../modules/userProfileManager";
 
 
-const User = ({ user }) => {
+const User = ({ user, getUsers }) => {
     const [displayDeactivateButton, setDisplayDeactivateButton] = useState(true)
 
     const handleDeactivate = (event) => {
@@ -11,6 +11,14 @@ const User = ({ user }) => {
         user.activated = false;
         updateUserProfile(user);
         setDisplayDeactivateButton(true);
+        getUsers();
+    }
+
+    const handleReactivate = (event) => {
+        event.preventDefault();
+        user.activated = true;
+        updateUserProfile(user);
+        getUsers();
     }
 
     if (user.activated) {
@@ -27,6 +35,7 @@ const User = ({ user }) => {
             <td><Link to={`${user.id}`}>{user.displayName}</Link></td>
             <td>{user.fullName}</td>
             <td>{user.userType.name}</td>
+            <td><button onClick={handleReactivate}>Reactivate</button></td>
         </tr>
     }
 
