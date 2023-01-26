@@ -11,7 +11,7 @@ export default function UserPosts() {
     getUserPosts().then(setPosts);
   }, []);
 
-  if (Object.keys(posts).length > 0) {    
+  if (posts.length > 0) {    
     return (
       <section>
       {posts.map((p) => (
