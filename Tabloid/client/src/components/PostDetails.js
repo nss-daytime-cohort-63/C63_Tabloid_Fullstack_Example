@@ -12,15 +12,20 @@ export default function PostDetails(){
       getPostDetails(id).then(setP);
     }, [])
   
-  
-  return (
-    <div className="m-4">
-        <strong>{p.title}</strong>
-        <img src={p.imagelocation} />
-        <p>{p.content}</p>
-        <p>Author: {p.userProfile?.displayName} &emsp; Published on {p.publishDateTime}</p>
+  if(p === null) {
+    return <p>404 not found</p>
+  }
+
+  else {
+    return (
+      <div className="m-4">
+          <strong>{p.title}</strong>
+          <img src={p.imagelocation} />
+          <p>{p.content}</p>
+          <p>Author: {p.userProfile?.displayName} &emsp; Published on {p.publishDateTime}</p>
 
 
-    </div>
-  );
+      </div>
+    );
+  } 
 }

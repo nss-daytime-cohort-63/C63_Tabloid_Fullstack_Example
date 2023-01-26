@@ -22,6 +22,7 @@ export const getAllPosts = () => {
 };
 
 export const getPostDetails = (id) => {
+  
   return getToken().then(token => {
     return fetch(`${apiUrl}/${id}`, {
       method: "GET",
