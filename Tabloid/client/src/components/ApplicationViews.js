@@ -3,11 +3,11 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import PostList from "./post/PostList";
-import ListCategories from "./Category/ListCategories";
+import ListCategories from "./category/ListCategories";
 import UserPosts from "./post/UserPosts";
 import ListUsers from "./user/ListUsers";
 import TagList from "./tag/TagList";
-import CategoryForm from "./Category/CategoryForm";
+import CategoryForm from "./category/CategoryForm";
 import UserDetails from "./user/UserDetails";
 
 export default function ApplicationViews({ isLoggedIn, role }) {
