@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Table } from "reactstrap";
 import { getAllUserProfiles } from "../../modules/userProfileManager";
 
@@ -27,7 +28,7 @@ const ListUsers = () => {
                     {
                         users.map(user => {
                             return <tr key={user.id}>
-                                <td>{user.displayName}</td>
+                                <td><Link to={`${user.id}`}>{user.displayName}</Link></td>
                                 <td>{user.fullName}</td>
                                 <td>{user.userType.name}</td>
                             </tr>

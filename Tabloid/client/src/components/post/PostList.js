@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Post from "./Post";
-import { getAllPosts } from "../modules/postManager";
+import { getAllPosts } from "../../modules/postManager";
 
 export default function PostList() {
   const [posts, setPosts] = useState([]);
