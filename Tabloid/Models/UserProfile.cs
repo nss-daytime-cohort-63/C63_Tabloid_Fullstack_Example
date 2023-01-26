@@ -35,6 +35,8 @@ namespace Tabloid.Models
         [MaxLength(255)]
         public string ImageLocation { get; set; }
 
+        public bool Activated { get; set; }
+
         [Required]
         public int UserTypeId { get; set; }
         public UserType UserType { get; set; }
