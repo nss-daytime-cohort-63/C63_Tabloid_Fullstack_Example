@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { AddPost } from '../../modules/postManager';
-import { Button, Form, FormGroup, FormText, Input, Label } from "reactstrap"
+import { Button, Form, FormGroup, Input, Label } from "reactstrap"
 import { useNavigate } from 'react-router-dom';
 import { getAllCategories } from '../../modules/categoryManager';
-import { wait } from '@testing-library/user-event/dist/utils';
 
 const PostForm = () => {
     const navigate = useNavigate();
@@ -52,7 +51,7 @@ const PostForm = () => {
                 onChange={(e) => setImageLocation(e.target.value)}/>
             </FormGroup>
             <FormGroup>
-                <Label htmlFor="categoryId">Select A Category</Label>
+                <Label htmlFor="categoryId" className="m-3">Select A Category</Label>
                 <select onChange={(e) => setCategoryId(e.target.value)}>
                 {categories.map((category) => <option value={category.id} key={`addpostcategory--${category.id}`}>{category.name}</option>)}
                 </select>

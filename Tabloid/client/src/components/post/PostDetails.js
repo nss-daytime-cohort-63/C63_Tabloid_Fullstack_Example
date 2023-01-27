@@ -17,9 +17,13 @@ export default function PostDetails(){
 
   else {
     return (
-      <div className="m-4">
-          <strong>{p.title}</strong>
-          <img src={p.imagelocation} />
+      <div className="m-4 text-center">
+          <h1 className="bold">{p.title}</h1>
+          <img 
+            src={p.imageLocation}
+            alt="blog-header-img"
+            className="mt-5 mb-5"
+            width="100%" height="200px" />
           <p>{p.content}</p>
           <p>Author: {p.userProfile?.displayName} &emsp; Published on {p.publishDateTime}</p>
 
