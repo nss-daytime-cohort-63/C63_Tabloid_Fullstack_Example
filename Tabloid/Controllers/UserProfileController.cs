@@ -34,7 +34,7 @@ namespace Tabloid.Controllers
                 return NotFound();
             }
 
-            return Ok();
+            return Ok(userProfile);
         }
 
         [HttpGet]
@@ -76,6 +76,25 @@ namespace Tabloid.Controllers
                 nameof(GetUserProfile),
                 new { firebaseUserId = userProfile.FirebaseUserId },
                 userProfile);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Edit(int id, UserProfile userProfile)
+        {
+            var currentUserProfile = GetCurrentUserProfile();
+            if (currentUserProfile.UserType.Name != "Admin")
+            {
+                return Unauthorized();
+            }
+            
+            if (id != userProfile.Id)
+            {
+                return BadRequest();
+            }
+
+            _userProfileRepository.Update(userProfile);
+            return NoContent();
+
         }
 
 

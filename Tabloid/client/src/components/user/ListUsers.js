@@ -2,16 +2,22 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Table } from "reactstrap";
 import { getAllUserProfiles } from "../../modules/userProfileManager";
+import User from "./User";
 
 
 const ListUsers = () => {
     const [users, setUsers] = useState([]);
+    const [showDeactivated, setShowDeactivated] = useState(false);
 
-    useEffect(() => {
+    const getUsers = () => {
         getAllUserProfiles()
             .then(usersData => {
                 setUsers(usersData)
             })
+    }
+
+    useEffect(() => {
+        getUsers();
     }, []);
 
     return (
@@ -22,16 +28,18 @@ const ListUsers = () => {
                         <th>Display Name</th>
                         <th>Name</th>
                         <th>User Type</th>
+                        <th>{
+                            showDeactivated ? <button onClick={() => { setShowDeactivated(false) }}>View Activated</button>
+                                : <button onClick={() => { setShowDeactivated(true) }}>View Deactivated</button>
+                        }</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         users.map(user => {
-                            return <tr key={user.id}>
-                                <td><Link to={`${user.id}`}>{user.displayName}</Link></td>
-                                <td>{user.fullName}</td>
-                                <td>{user.userType.name}</td>
-                            </tr>
+                            if (!showDeactivated === user.activated) {
+                                return <User key={user.id} user={user} getUsers={getUsers} />
+                            }
                         })
                     }
                 </tbody>

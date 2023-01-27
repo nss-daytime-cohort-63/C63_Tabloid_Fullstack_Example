@@ -31,6 +31,9 @@ export default function Header({ isLoggedIn, role }) {
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/userposts">My Posts</NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/addpost">Add A Post</NavLink>
+                </NavItem>
               </>
             }
             {role === "Admin" &&
