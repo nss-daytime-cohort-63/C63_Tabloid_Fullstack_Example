@@ -14,30 +14,114 @@ namespace Tabloid.Repositories
 
 
 
-        public List<Tag> GetAllTags()
+        public AllTagsDTO GetAllTags(bool usePagination, int? increment, int? offset)
         {
-            using (var conn = Connection)
+            using (SqlConnection conn = Connection)
             {
                 conn.Open();
-                using (var cmd = conn.CreateCommand())
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = $@"
+                SELECT Id, [Name], (SELECT COUNT(*) FROM dbo.Tag WHERE IsDeleted = 0) Total
+                FROM dbo.Tag
+                WHERE IsDeleted = 0
+                ORDER BY [Name]
+                {(usePagination ? $"OFFSET {(offset == null ? 0 : offset)} ROWS FETCH NEXT {(increment == null ? 10 : increment)} ROWS ONLY" : "")}
+            ";
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        List<Tag> tags = new List<Tag>();
+                        AllTagsDTO newDTO = new();
+
+                        while (reader.Read())
+                        {
+                            Tag newTag = new()
+                            {
+                                Id = DbUtils.GetInt(reader, "id"),
+                                Name = DbUtils.GetString(reader, "name")
+                            };
+
+                            tags.Add(newTag);
+                            if (newDTO.Total == null)
+                            {
+                                newDTO.Total = DbUtils.GetInt(reader, "Total");
+                            }
+                        }
+
+                        newDTO.Tags = tags;
+                        return newDTO;
+                    }
+                }
+            }
+        }
+
+        public void Add(Tag tag)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    //! If tag already exists, but is deleted, restore it.
+                    cmd.CommandText = $@"
+                        IF (SELECT Id FROM dbo.Tag WHERE [Name] = @Name) IS NULL
+	                        INSERT INTO dbo.Tag ([Name])
+	                        VALUES (@Name)
+                        ELSE
+	                        UPDATE dbo.Tag
+	                        SET IsDeleted = 0
+	                        WHERE [Name] = @Name
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@Name", tag.Name);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void Edit(string oldName, string newName)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, [Name] 
-                        FROM Tag
-                        ORDER BY [Name]
+                        UPDATE dbo.Tag
+                        SET [Name] = @NewName
+                        WHERE [Name] = @OldName
                     ";
-                    var reader = cmd.ExecuteReader();
-                    var tags = new List<Tag>();
-                    while (reader.Read())
-                    {
-                        tags.Add(new Tag()
-                        {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Name = reader.GetString(reader.GetOrdinal("Name"))
-                        });
-                    }
-                    reader.Close();
-                    return tags;
+
+                    DbUtils.AddParameter(cmd, "@NewName", newName);
+                    DbUtils.AddParameter(cmd, "@OldName", oldName);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void Delete(int tagId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE dbo.Tag
+                        SET IsDeleted = 1
+                        WHERE Id = @Id
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@Id", tagId);
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }

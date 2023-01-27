@@ -3,11 +3,12 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import PostList from "./post/PostList";
-import ListCategories from "./category/ListCategories";
+import ListCategories from "./Category/ListCategories";
 import UserPosts from "./post/UserPosts";
 import ListUsers from "./user/ListUsers";
-import TagList from "./tag/TagList";
-import CategoryForm from "./category/CategoryForm";
+import ListTags from "./tag/ListTags";
+import TagForm from "./tag/TagForm";
+import CategoryForm from "./Category/CategoryForm";
 import UserDetails from "./user/UserDetails";
 import PostForm from "./post/PostForm";
 import PostDetails from "./post/PostDetails";
@@ -27,13 +28,25 @@ export default function ApplicationViews({ isLoggedIn, role }) {
 
           <Route path="userposts" element={isLoggedIn ? <UserPosts /> : <Navigate to="/login" />} />
           <Route path="addpost" element={isLoggedIn ? <PostForm /> : <Navigate to="/login" />} />
-          <Route path="tags" >
+          <Route path="tags">
             <Route index
               element={
                 isLoggedIn && role === "Admin"
-                  ? <TagList />
+                  ? <ListTags />
                   : <Navigate to="/login" />
               }
+            />
+            <Route path="new" element={
+              isLoggedIn && role === "Admin"
+                ? <TagForm />
+                : <Navigate to="/login" />
+            }
+            />
+            <Route path="edit/:tagName" element={
+              isLoggedIn && role === "Admin"
+                ? <TagForm />
+                : <Navigate to="/login" />
+            }
             />
           </Route>
 

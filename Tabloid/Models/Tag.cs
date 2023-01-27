@@ -5,7 +5,6 @@ namespace Tabloid.Models
 {
     public class Tag
     {
-        [Required]
         public int Id { get; set; }
 
         [Required]

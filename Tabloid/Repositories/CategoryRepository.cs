@@ -65,7 +65,7 @@ namespace Tabloid.Repositories
 
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    //! If tag already exists, but is deleted, restore it.
+                    //! If category already exists, but is deleted, restore it.
                     cmd.CommandText = $@"
                         IF (SELECT Id FROM dbo.Category WHERE [Name] = @Name) IS NULL
 	                        INSERT INTO dbo.Category ([Name])

@@ -5,6 +5,9 @@ namespace Tabloid.Repositories
 {
     public interface ITagRepository
     {
-        List<Tag> GetAllTags();
+        AllTagsDTO GetAllTags(bool usePagination, int? increment, int? offset);
+        public void Add(Tag tag);
+        public void Delete(int id);
+        public void Edit(string oldName, string newName);
     }
 }
