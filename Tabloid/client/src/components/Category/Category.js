@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { Button, ButtonGroup, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap"
 import { deleteCategory } from "../../modules/categoryManager"
@@ -7,10 +7,20 @@ const Category = ({ cat, resetCategories }) => {
     const [modal, setModal] = useState(false),
         navigate = useNavigate()
 
+        useEffect(() => {
+            resetCategories()
+        }, [])
+      
+
     const confirmDelete = () => {
         deleteCategory(cat.id)
-            .then(res => res.ok ? resetCategories() : null)
-    }
+        .then(res => {
+            if(res.ok) {
+                setModal(false)
+                window.location.reload()
+            }
+        })
+}
 
     return (
         <tr>
@@ -27,7 +37,7 @@ const Category = ({ cat, resetCategories }) => {
                         Are you sure you want to delete {cat.name}?
                     </ModalBody>
                     <ModalFooter>
-                        <Button onClick={() => confirmDelete()} color="primary">Confirm</Button>
+                        <Button onClick={() => confirmDelete(setModal(!modal))} color="primary">Confirm</Button>
                         <Button onClick={() => setModal(!modal)} color="secondary">Cancel</Button>
                     </ModalFooter>
                 </Modal>
