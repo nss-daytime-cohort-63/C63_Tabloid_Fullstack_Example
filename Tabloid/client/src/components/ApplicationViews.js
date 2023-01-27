@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import PostList from "./post/PostList";
-import ListCategories from "./category/ListCategories";
+import ListCategories from "./Category/ListCategories";
 import UserPosts from "./post/UserPosts";
 import ListUsers from "./user/ListUsers";
 import ListTags from "./tag/ListTags";
