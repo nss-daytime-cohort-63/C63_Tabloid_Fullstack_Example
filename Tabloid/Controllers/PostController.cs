@@ -7,6 +7,7 @@ using Tabloid.Repositories;
 
 namespace Tabloid.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class PostController : ControllerBase
@@ -23,6 +24,7 @@ namespace Tabloid.Controllers
         [HttpGet]
         public IActionResult Get()
         {
+
             return Ok(_postRepository.GetAll());
         }
 
