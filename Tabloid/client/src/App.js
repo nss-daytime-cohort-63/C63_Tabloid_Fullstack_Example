@@ -16,7 +16,7 @@ function App() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      // firebase.auth().currentUser.uid grabs the firebaseUUID -- firebase has many helpers like this
+      // firebase.auth().currentUser.uid grabs the firebaseUID -- firebase has many helpers like this
       getUserDetails(firebase.auth().currentUser.uid)
         .then(userObject => {
           setRole(userObject.userType.name)
